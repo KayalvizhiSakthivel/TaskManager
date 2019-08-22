@@ -1,7 +1,5 @@
-import { Component , OnInit } from '@angular/core';
-import { AddTaskService } from 'src/app/add-task/add-task.service';
-import { FormBuilder,Validators} from '@angular/forms';
-// import {MatTableModule} from '@angular/material/table'
+import { Component } from '@angular/core';
+import {FormGroup,FormControl}from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +7,6 @@ import { FormBuilder,Validators} from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Task Manager';
+  title = 'PROJECT MANAGER';
+ 
 }

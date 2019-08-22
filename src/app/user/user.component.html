@@ -1,0 +1,179 @@
+<div class="container-fluid">
+  
+   <h2 align="center">ADD USER</h2>
+   <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()"> 
+    
+     <div class="form-group">
+       <label>First Name:</label>
+       <input [class.is-invalid]="addUserForm.get('firstName').invalid &&  
+          addUserForm.get('firstName').touched" formControlName="firstName" type="text" class="form-control" >
+         <small [class.d-none]="addUserForm.get('firstName').valid ||  
+                               addUserForm.get('firstName').untouched"
+                                class="text-danger">firstName name is required
+         </small> 
+         <!-- <input type="text" class="form-control"> -->
+     </div>
+ 
+     <div class="form-group">
+       <label>Last Name:</label>
+       <input   [class.is-invalid]="addUserForm.get('lastName').invalid &&  
+       addUserForm.get('lastName').touched" formControlName="lastName" type="text" class="form-control"   >
+      
+       <small [class.d-none]="addUserForm.get('lastName').valid ||  
+         addUserForm.get('lastName').untouched"
+        class="text-danger">last name is required
+       </small>
+       <!-- <input type="text" class="form-control"> -->
+     </div>
+    
+     <div class="form-group">
+       <label>Employee Id:</label>
+       <input [class.is-invalid]="addUserForm.get('employeeId').invalid &&  
+       addUserForm.get('employeeId').touched" formControlName="employeeId" formControlName="employeeId" type="number" class="form-control"  >
+       
+       <small [class.d-none]="addUserForm.get('employeeId').valid ||  
+         addUserForm.get('employeeId').untouched"
+       class="text-danger">Employee Id is required
+       </small> 
+         <!-- <input type="text" class="form-control"> -->
+   </div>
+  
+   
+    
+       <div class="Container ">
+           <button  class="btn btn-primary" style='margin-right:16px' type ="submit">Add user</button>
+           <button class="btn btn primary" style='margin-right:16px' type="reset">Reset</button>
+       </div>
+   </form>
+   {{addUserForm.value | json}} 
+ 
+ </div>
+ 
+ 
+ <div class="col-md-6">
+     <h2 align="center"> VIEW USER</h2>
+     
+ <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="5">
+     <thead>
+     <tr>
+         <th style="width: 20%">
+             <input type="text" (keyup)='search($event.target.value)' placeholder="Search">
+         </th>
+         </tr>
+         <tr>
+         <th style="width: 20%">
+             <mfDefaultSorter by="startDate">User Id</mfDefaultSorter>
+         </th>
+         <th style="width: 20%">
+             <mfDefaultSorter by="task">First Name</mfDefaultSorter>
+         </th>
+         <th style="width: 50%">
+             <mfDefaultSorter by="parent">Last Name</mfDefaultSorter>
+         </th>
+         <th style="width: 10%">
+             <mfDefaultSorter by="priority">Employee Id</mfDefaultSorter>
+         </th>
+         
+         
+       
+     </tr>
+     </thead>
+     <tbody>
+   
+         
+   <tr *ngFor="let user of mf.data">
+     <td>{{user.userId}}</td>
+       <td>{{user.firstName}}</td>
+         <td>{{user.lastName}}</td>
+         <td>{{user.employeeId}}</td>
+         
+       <div ng-app="">
+        <td><button  type="button" class="btn btn-primary"  data-toggle="modal"  data-target="#myModal" (click)="updateUser(user)" >Edit</button></td>
+        <td><button type="button"  (click)="deleteUser(user)"  >Delete</button></td>
+         </div>
+     </tr>
+     </tbody>
+     <tfoot>
+     <tr>
+        
+     </tr>
+     </tfoot>
+   </table>
+ 
+ 
+   <!-- The Modal -->
+ <div class="modal" id="myModal">
+     <div class="modal-dialog">
+       <div class="modal-content">
+   
+         <!-- Modal Header -->
+         <div class="modal-header">
+           <h4 class="modal-title">Modal Heading</h4>
+           <button type="button" (click)="closeEdit()" class="close" data-dismiss="modal">&times;</button>
+         </div>
+   
+         <!-- Modal body -->
+         <div class="modal-body">
+ 
+             <div class="container-fluid">
+                 
+                  <h2>Edit User</h2>
+                  <form [formGroup]="editUserForm" > 
+                   
+                    <div class="form-group">
+                      <label>First Name:</label>
+                      <input [class.is-invalid]="editUserForm.get('firstName').invalid &&  
+                      editUserForm.get('firstName').touched"[(ngModel)]="example.firstName" formControlName="firstName" type="text" class="form-control" >
+                        <small [class.d-none]="editUserForm.get('firstName').valid ||  
+                        editUserForm.get('firstName').untouched"
+                                               class="text-danger">firstName name is required
+                        </small> 
+                        <!-- <input type="text" class="form-control"> -->
+                    </div>
+                
+                    <div class="form-group">
+                      <label>Last Name:</label>
+                      <input   [class.is-invalid]="editUserForm.get('lastName').invalid &&  
+                      editUserForm.get('lastName').touched" [(ngModel)]="example.lastName" formControlName="lastName" type="text" class="form-control"   >
+                     
+                      <small [class.d-none]="editUserForm.get('lastName').valid ||  
+                      editUserForm.get('lastName').untouched"
+                       class="text-danger">last name is required
+                      </small>
+                      <!-- <input type="text" class="form-control"> -->
+                    </div>
+                   
+                    <div class="form-group">
+                      <label>Employee Id:</label>
+                      <input [class.is-invalid]="editUserForm.get('employeeId').invalid &&  
+                      editUserForm.get('employeeId').touched"  [(ngModel)]="example.employeeId"  formControlName="employeeId" formControlName="employeeId" type="number" class="form-control"  >
+                      
+                      <small [class.d-none]="editUserForm.get('employeeId').valid ||  editUserForm.get('employeeId').untouched"
+                      class="text-danger">Employee Id is required
+                      </small> 
+                        <!-- <input type="text" class="form-control"> -->
+                  </div>
+                 
+                  
+                   
+                      <div class="Container ">
+                          <button  class="btn btn-primary" style='margin-right:16px' (click)="finishUpdate(example)"  type ="submit">Update user</button>
+                          <button class="btn btn primary" style='margin-right:16px' type="reset">Reset</button>
+                      </div>
+                  </form>
+            
+                
+                </div>
+ 
+                </div>
+                {{addProjectForm.value | json}} 
+ 
+ 
+       <!-- Modal footer -->
+       <div class="modal-footer">
+         <button type="button"  class="btn btn-danger" data-dismiss="modal">Close</button>
+       </div>
+ 
+   
+   
+ 

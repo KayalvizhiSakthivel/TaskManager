@@ -1,30 +1,42 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms'
-import { AppRoutingModule,routeComponents } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AddTaskComponent } from './add-task/add-task.component';
-import { ViewTaskComponent } from './view-task/view-task.component';
-import { HttpClientModule } from '@angular/common/http';
 
- import{DataTableModule} from "angular-6-datatable";
+import { AppRoutingModule,routingComponents } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { UserComponent } from './user/user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from 'src/app/user.service';
+import {DataTableModule} from "angular-6-datatable";
+import { ProjectComponent } from './project/project.component';
+import {ProjectService}from './project.service';
+import { TaskComponent } from './task/task.component';
+import { ViewTaskComponent } from './view-task/view-task.component';
+import { TaskService } from 'src/app/task/task.service';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    routeComponents,
-    AddTaskComponent,
-    ViewTaskComponent
+    routingComponents,
+    UserComponent,
+    ProjectComponent,
+    TaskComponent,
+    ViewTaskComponent,
+    UserComponent
+   
+  
   ],
   imports: [
+   
     BrowserModule,
-    ReactiveFormsModule,
+    AppRoutingModule,
+    FormsModule, ReactiveFormsModule ,
     HttpClientModule,
-     DataTableModule,
-    AppRoutingModule
+    DataTableModule
   ],
-  providers: [],
+  providers: [UserService,ProjectService,TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

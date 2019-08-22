@@ -1,0 +1,224 @@
+<div ng-app="" class="container-fluid">
+  
+  <h2 align="center">ADD PROJECT</h2>
+ <form [formGroup]="addProjectForm" (ngSubmit)="onSubmit()">
+
+
+    <div class="form-group">
+     <label>Project:</label>
+     <input [class.is-invalid]="addProjectForm.get('projectName').invalid &&
+        addProjectForm.get('projectName').touched" formControlName="projectName" type="text" class="form-control" [(ngModel)]="exampleproject.projectName">
+       <small [class.d-none]="addProjectForm.get('projectName').valid ||
+                             addProjectForm.get('projectName').untouched"
+                              class="text-danger">project name is required
+       </small>
+
+   </div>
+   
+
+
+   <div>
+    <input type="checkbox" ng-model="attribute.value" (onclick)="myFunction(this)">Enable start and end dates
+   <div class="form-group" >
+     <label>StartDate:</label>
+     <input   [class.is-invalid]="addProjectForm.get('startDate').invalid &&
+     addProjectForm.get('startDate').touched" formControlName="startDate" id="myText1" ng-disabled="!attribute.value" type="date" class="form-control" [(ngModel)]="exampleproject.startDate"  >
+
+   </div>
+
+   <div class="form-group" >
+     <label>End Date:</label>
+     <input [class.is-invalid]="addProjectForm.get('endDate').invalid &&
+     addProjectForm.get('endDate').touched" formControlName="endDate" formControlName="endDate" id="myText2" ng-disabled="!attribute.value" type="date" class="form-control" [(ngModel)]="exampleproject.endDate" >
+
+
+ </div>
+
+
+ </div>
+<div class="form-group">
+  <label>Priority:</label>
+  <input   [class.is-invalid]="addProjectForm.get('priority').invalid &&
+  addProjectForm.get('priority').touched" formControlName="priority"type="range" min="1" max="100" value="1"  class="form-control" [(ngModel)]="exampleproject.priority"  >
+
+  <small [class.d-none]="addProjectForm.get('priority').valid ||
+    addProjectForm.get('priority').untouched"
+   class="text-danger">Priority is required
+  </small>
+
+</div>
+
+<div>
+    <label>Manager</label>
+<input type="text" placeholder="Search.." (click)="loadTable()"  name="search" data-toggle="modal"  data-target="#myModal" [(ngModel)]="example.firstName"[(ngModel)]="example.manager.firstName" [ngModelOptions]="{standalone: true}" >
+
+</div>
+
+{{addProjectForm.value|json}}
+  <!-- <div class="form-group" formGroupName="manager" > -->
+
+
+  <!-- <input type="text" placeholder="Search.." formControlName="manager"   name="search" data-toggle="modal"  data-target="#myModal" [(ngModel)]="example.firstName" class="form-control"> -->
+
+  <!-- <button type="submit" (click)="luckyFunction(manager)">Search</button> -->
+
+
+<!-- </div> -->
+
+     <div class="Container ">
+         <button  class="btn btn-primary" style='margin-right:16px' type ="submit" id="button3" value="button 3"  >Add project</button>
+    
+         <!-- <button  class="btn btn-primary" style='margin-right:16px' type ="submit"  id="button2" value="button 2" disabled >update project</button> -->
+      
+         <button class="btn btn primary" style='margin-right:16px' type="reset">Reset</button>
+</div>
+ </form>
+ 
+ <div class="col-md-6">
+    <h2 align="center"> VIEW PROJECT</h2>
+ <table class="table table-striped" [mfData]="projects" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <thead>
+    <tr>
+          <th style="width: 20%">
+                  <input type="text" (keyup)='search($event.target.value)' placeholder="Search">
+              </th>
+              </tr> 
+              <tr>
+         <th style="width: 20%">
+            <mfDefaultSorter by="projectId">Project Id</mfDefaultSorter>
+        </th>
+        <th style="width: 20%">
+            <mfDefaultSorter by="projectName">Project Name</mfDefaultSorter>
+        </th>
+        <th style="width: 50%">
+            <mfDefaultSorter by="startDate">Start Date</mfDefaultSorter>
+        </th>
+        <th style="width: 10%">
+            <mfDefaultSorter by="endDate">End Date</mfDefaultSorter>
+        </th>
+        <th style="width: 10%">
+            <mfDefaultSorter by="manager">Manager</mfDefaultSorter>
+        </th>
+        <th style="width: 10%">
+          <mfDefaultSorter by="numberOfTasks">Number of tasks</mfDefaultSorter>
+      </th>
+      <th style="width: 10%">
+          <mfDefaultSorter by="completedTasks">Completed Tasks</mfDefaultSorter>
+      </th>
+  
+  
+    </tr>
+    </thead>
+    <tbody>
+  
+  
+  <tr *ngFor="let item of mf.data">
+      <td>{{item.projectId}}</td>
+        <td>{{item.projectName}}</td>
+        <td>{{item.startDate}}</td>
+        <td>{{item.endDate}}</td>
+        <td>{{item.manager.firstName}}</td>         
+        <td>{{item.numberOfTasks}}</td>
+        <td>{{item.completedTasks}}</td>
+        <div ng-app>
+            <!-- value="button 1" onclick="enableButton2()" -->
+      <td><button [disabled]="item.suspended" type="button" (click)="updateProject(item)"  >Edit </button></td>
+      <td><button  type="button " (click)="suspendProject(item)" >Suspend</button></td>
+  </div>
+    </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+          <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]=""></mfBootstrapPaginator>
+          </td>
+      </tr>
+      </tfoot>
+   
+  </table>
+  
+
+
+ <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button"  class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+
+<table class="table table-striped" [mfData]="users" #mf1="mfDataTable" [mfRowsOnPage]="5">
+<thead>
+<tr>
+    <!-- <th style="width: 20%">
+        <mfDefaultSorter by="startDate">User Id</mfDefaultSorter>
+    </th> -->
+    <th style="width: 20%">
+        <mfDefaultSorter by="task">First Name</mfDefaultSorter>
+    </th>
+    <th style="width: 50%">
+        <mfDefaultSorter by="parent">Last Name</mfDefaultSorter>
+    </th>
+    <th style="width: 10%">
+        <mfDefaultSorter by="priority">Employee Id</mfDefaultSorter>
+    </th>
+
+
+
+</tr>
+</thead>
+<tbody>
+
+
+<tr *ngFor="let user of mf1.data">
+  <td>{{user.firstName}}</td>
+    <td>{{user.lastName}}</td>
+    <td>{{user.employeeId}}</td>
+
+
+  <td><button  type="button" class="btn btn-primary"  data-toggle="modal"  data-target="#myModal" (click)="selectManager(user)" >Select Manager</button></td>
+
+
+</tr>
+</tbody>
+<tfoot>
+<tr>
+
+</tr>
+</tfoot>
+</table>
+
+
+
+
+    <!-- Modal footer -->
+    <div class="modal-footer">
+      <button type="button"  class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+   
+<!-- 
+<script>
+    function myFunction() {
+      document.getElementById("myText1").disabled = false;
+      document.getElementById("myText2").disabled = false;
+    }
+  </script> -->
+  <script >
+    function myFunction() {
+        var myText1 = document.getElementById("myText1");
+        myText1.disabled = chkPassport.checked ? false : true;
+        if (!myText1.disabled) {
+            myText1.focus();
+        }
+        var myText2 = document.getElementById("myText2");
+        myText2.disabled = chkPassport.checked ? false : true;
+        if (!myText2.disabled) {
+            myText2.focus();
+        }
+    }
+</script>

@@ -1,19 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
+
+
 <div style="text-align:center">
-    <h1>
-     {{ title }}
-     </h1>
-    </div>
-     <div class="container">
-      <nav class="navbar navbar-default">
-       
-        
-            <a routerLink="/addTask" style='margin-right:16px' routerLinkActive="active">Add Task</a>
-            <a  routerLink="/viewTask"  style='margin-right:16px' routerLinkActive="active">View Task</a>
-           
-        
-      </nav>
-      <router-outlet></router-outlet>
+  <h1>
+   {{ title }}
+   </h1>
   </div>
-  
-  
+   <div class="container">
+    <nav class="navbar navbar-inverse">
+     
+            
+                <a routerLinkActive="active" style='margin-right:16px'  routerLink="/users">Add User</a>
+                <a routerLinkActive="active" style='margin-right:16px'  routerLink="/projects">Add Project</a>
+                <a routerLinkActive="active" style='margin-right:16px'  routerLink="/tasks">Add Task</a>
+                <a routerLinkActive="active" style='margin-right:16px' routerLink="/viewTasks">View Task</a>
+       
+    </nav>
+    <router-outlet></router-outlet>
+</div>
+
+
+

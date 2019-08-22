@@ -1,166 +1,331 @@
-<div class="container-fluid">
+<div ng-app="" class="container-fluid">
     
-     <h2>View Task</h2>
-   <div class="row">
-     <div  class="form-group col-sm-6" >
-       <label>Task:</label>
-       <input class="form-control"  type="text" (keyup)='Task($event.target.value)' />
-     </div>
-     
-     <div  class="form-group  col-sm-6">
-       <label>Parent Task:</label>
-       <input  class="form-control" type="text" (keyup)='parentTask($event.target.value)'  />
-     </div>
-   </div>
-   <div class="row" >
-     <div  class="form-group col-sm-3">
-       <label>Priority From:</label>
-       <input  class="form-control" type="number" (keyup)='priorityFrom($event.target.value)'  />
-     </div>
-   
-     <div  class="form-group col-sm-3">
-       <label>Priority To:</label>
-       <input  class="form-control" type="number" (keyup)='priorityTo($event.target.value)' />
-     </div>
-     <div  class="form-group col-sm-3">
-       <label>Start Date:</label>
-       <input  class="form-control" type="date" (keyup)='searchStartDate($event.target.value)' />
-     </div>
-     <div  class="form-group col-sm-3">
-       <label>End Date:</label>
-       <input   class="form-control" type="date" (keyup)='searchEndDate($event.target.value)' />
-     </div>
-   </div>
-   
-   </div>
-   
-   
-   <table class="table table-striped" [mfData]="tasks" #mf="mfDataTable" [mfRowsOnPage]="5">
-     <thead>
-     <tr>
-         <th style="width: 20%">
-             <mfDefaultSorter by="task">Task</mfDefaultSorter>
-         </th>
-         <th style="width: 20%">
-             <mfDefaultSorter by="parent">Parent Task</mfDefaultSorter>
-         </th>
-         <th style="width: 20%">
-             <mfDefaultSorter by="priority">Priority</mfDefaultSorter>
-         </th>
-         <th style="width: 20%">
-             <mfDefaultSorter by="startDate">Start Date</mfDefaultSorter>
-         </th>
-         <th style="width: 20%">
-           <mfDefaultSorter by="endDate">End Date</mfDefaultSorter>
-       </th>
-       
-     </tr>
-     </thead>
-     <tbody>
-      
-     <tr *ngFor="let task of mf.data">
-       <td>{{task.task}}</td>
-         <td>{{task.parentTask}}</td>
-         <td>{{task.priority}}</td>
-         <td>{{task.startDate}}</td>
-         <td>{{task.endDate}}</td>
-       <div ng-app="">
-        <td><button [disabled]="task.isDisabled" id="disable" type="button" class="btn btn-primary"  data-toggle="modal"  data-target="#myModal" (click)="updateTask(task)" >Edit</button></td>
-        <td><button type="button"  (click)="click(task)"  >EndTask</button></td>
-         </div>
-     </tr>
-     </tbody>
-     <tfoot>
-     <tr>
-        
-     </tr>
-     </tfoot>
-   </table>
-   <!-- The Modal -->
-   <div class="modal" id="myModal">
-     <div class="modal-dialog">
-       <div class="modal-content">
-   
-         <!-- Modal Header -->
-         <div class="modal-header">
-           <h4 class="modal-title">Update Task</h4>
-           <button type="button" (click)="closeEdit()" class="close" data-dismiss="modal">&times;</button>
-         </div>
-   
-         <!-- Modal body -->
-         <div class="modal-body">
-          
-   <div class="container-fluid">
-     <h2>AddTask Form</h2>
-     
-     <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
-       <div [hidden]="true" class="form-group">
-         
-         <input  
-            formControlName="taskId" [(ngModel)]="example.taskId" type="text" class="form-control" >
-          
-       </div>
-         {{addTaskForm.value | json}}
-       <div class="form-group">
-         <label>Task:</label>
-         <input [class.is-invalid]="addTaskForm.get('task').invalid &&  
-            addTaskForm.get('task').touched" [(ngModel)]="example.task" formControlName="task" type="text" class="form-control" >
-           <small [class.d-none]="addTaskForm.get('task').valid ||  
-                                 addTaskForm.get('task').untouched"
-                                  class="text-danger">task name is required
-           </small>
-       </div>
-   
-       <div class="form-group">
-         <label>Priority:</label>
-         <input   [class.is-invalid]="addTaskForm.get('priority').invalid &&  
-         addTaskForm.get('priority').touched" formControlName="priority"[(ngModel)]="example.priority" type="range"  min=0 max=30 class="form-control"   >
-         <small [class.d-none]="addTaskForm.get('priority').valid ||  
-         addTaskForm.get('priority').untouched"
-          class="text-danger">select range btw 0 and 30
-   </small>
-       </div>
-      
-       <div class="form-group">
-         <label>Parent Task:</label>
-         <input formControlName="parentTask" type="text" [(ngModel)]="example.parentTask" class="form-control"  >
-        
-       </div>
-      
-       <div class="form-group">
-         <label>Start Date:</label>
-         <input  [class.is-invalid]="addTaskForm.get('startDate').invalid &&  
-         addTaskForm.get('startDate').touched" formControlName="startDate" [(ngModel)]="example.startDate" type="date" class="form-control"  >
-         <small [class.d-none]="addTaskForm.get('startDate').valid ||  
-         addTaskForm.get('startDate').untouched"
-          class="text-danger">start date is required
-   </small>
-       </div>
-       <div class="form-group">
-           <label>End Date:</label>
-           <input  [class.is-invalid]="addTaskForm.get('endDate').invalid &&  
-           addTaskForm.get('endDate').touched" formControlName="endDate" [(ngModel)]="example.endDate" type="date" class="form-control" >
-           <small [class.d-none]="addTaskForm.get('endDate').valid ||  
-           addTaskForm.get('endDate').untouched"
-            class="text-danger">end date is required
-     </small>
-       
-         </div>
-         <div class="Container ">
-             <button  class="btn btn-primary" style='margin-right:16px' type =submit>Add Task</button>
-             <button class="btn btn-primary" style='margin-right: 20px' type="reset">Reset</button>
-         </div>
-     </form>
-   
-   </div>
-         </div>
-   
-         <!-- Modal footer -->
-         <div class="modal-footer">
-           <button type="button"  class="btn btn-danger" data-dismiss="modal">Close</button>
-         </div>
-   
-       </div>
-     </div>
-   </div>
-   
+    <h2 align="center">VIEW TASK</h2>
+
+<div class="container-fluid">
+    <table class="table table-striped" [mfData]="tasks" #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+            <tr>
+                <th style="width: 20%">
+                    <input type="text" (keyup)='search($event.target.value)' placeholder="Search">
+                </th>
+                </tr>
+                <tr>
+                <th style="width: 10%">
+                    <mfDefaultSorter by="task">Task</mfDefaultSorter>
+                </th>
+
+                <th style="width: 20%">
+                    <mfDefaultSorter by="parentTask">Parent Task</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                    <mfDefaultSorter by="priority">Priority</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                    <mfDefaultSorter by="startDate">Start date</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                    <mfDefaultSorter by="endDate">End Date</mfDefaultSorter>
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let task of mf.data">
+                <td>{{task.task}}</td>
+                <td>{{task.parentTask.parentTaskName}}</td>
+                <td>{{task.priority}}</td>
+                <td>{{task.startDate}}</td>
+                <td>{{task.endDate}}</td>
+
+                <div ng-app="">
+                    <td>
+                        <button type="button" [disabled]="task.suspended" class="btn btn-primary" (click)="updateTask(task)"
+                            data-toggle="modal" data-target="#myModal0">update</button>
+                    </td>
+                    <td>
+                        <button type="button" (click)="end(task)">End Task</button>
+                    </td>
+                </div>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal0">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- addTAskForm -->
+              <div class="container-fluid">
+                    <h2>Add Task Form</h2>
+                    <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
+
+                        <div class="form-group">
+                            <label>Project</label>
+                            {{exampleTask.project.projectName}}
+                            <input type="text" class="form-control" formControlName="project" placeholder="Search.." name="search" data-toggle="modal"
+                                data-target="#myModal" [(ngModel)]="exampleTask.project.projectName">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Task:</label>
+                            <input [class.is-invalid]="addTaskForm.get('task').invalid &&
+                        addTaskForm.get('task').touched" formControlName="task" type="text" class="form-control" [(ngModel)]="exampleTask.task">
+                            <small [class.d-none]="addTaskForm.get('task').valid ||
+                                             addTaskForm.get('task').untouched" class="text-danger">task name is required
+                            </small>
+
+                        </div>
+
+                        <div>
+                            <input type="checkbox" onclick="enableButton3()">Parent Task
+                        </div>
+                        <div class="form-group">
+                            <label>Priority:</label>
+                            <input type="range" min="1" max="100" id="button4" value="button 4" formControlName="priority" class="form-control" [(ngModel)]="exampleTask.priority">
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Parent Task</label>
+                            <input type="text" formControlName="parentTask" id="button5" value="button 5" data-toggle="modal" data-target="#myModal1"
+                                class="form-control" [(ngModel)]="exampleParent.parentTaskName">
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>StartDate:</label>
+                            <input [class.is-invalid]="addTaskForm.get('startDate').invalid &&
+                         addTaskForm.get('startDate').touched" formControlName="startDate" id="button6" value="button 6"
+                                type="date" class="form-control" [(ngModel)]="exampleTask.startDate">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>End Date:</label>
+                            <input [class.is-invalid]="addTaskForm.get('endDate').invalid &&
+                         addTaskForm.get('endDate').touched" formControlName="endDate" id="button7" value="button 7" type="date"
+                                class="form-control" [(ngModel)]="exampleTask.endDate">
+
+
+                        </div>
+                        <div>
+                            <label>Manager</label>
+                            <input type="text" placeholder="Search.." formControlName="user" class="form-control" id="button8" value="button 8" name="search"
+                                data-toggle="modal" data-target="#myModal2" [(ngModel)]="example.firstName">
+
+                        </div>
+                        <div class="Container ">
+
+                            <button class="btn btn-primary" style='margin-right:16px' type="submit">Add Task</button>
+                            <button class="btn btn primary" style='margin-right:16px' type="reset">Reset</button>
+                        </div>
+
+                    </form>
+                    {{addTaskForm.value | json}}
+                </div>
+              <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Modal Heading</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <table class="table table-striped" [mfData]="projects" #mf1="mfDataTable" [mfRowsOnPage]="5">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5%">
+                                            <mfDefaultSorter by="projectId">Id</mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="projectName">Project Name</mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="startDate">Start Date</mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="endDate">End Date</mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="manager">Manager</mfDefaultSorter>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let project of mf1.data">
+                                        <td>{{project.projectId}}</td>
+                                        <td>{{project.projectName}}
+
+                                            <td>{{project.startDate}}</td>
+                                            <td>{{project.endDate}}</td>
+                                            <td>{{project.manager}}</td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                                                    (click)="selectProject(project)">Select Project</button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="myModal1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Modal Heading</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <table class="table table-striped" [mfData]="parentTasks" #mf2="mfDataTable" [mfRowsOnPage]="5">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th style="width: 20%">
+                                 <mfDefaultSorter by="startDate">project Id</mfDefaultSorter>
+                             </th> -->
+                                            <th style="width: 20%">
+                                                <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="parentTask">Parent Task Name</mfDefaultSorter>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tr *ngFor="let parentTasks of mf2.data">
+                                        <td>{{parentTasks.id}}</td>
+                                        <td>{{parentTasks.parentTaskName}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1"
+                                                (click)="selectParent(parentTasks)">Select parent</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="myModal2">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Modal Heading</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+
+                            <div class="modal-body">
+                                <table class="table table-striped" [mfData]="users" #mf3="mfDataTable" [mfRowsOnPage]="5">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th style="width: 20%">
+                                     <mfDefaultSorter by="startDate">project Id</mfDefaultSorter>
+                                 </th> -->
+                                            <th style="width: 20%">
+                                                <mfDefaultSorter by="userId">Id</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="firstName">first name</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="lastName">last Name</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="employeeId">employee id</mfDefaultSorter>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tr *ngFor="let user of mf3.data">
+                                        <td>{{user.userId}}</td>
+                                        <td>{{user.firstName}}</td>
+                                        <td>{{user.lastName}}</td>
+                                        <td>{{user.employeeId}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2"
+                                                (click)="selectManager(user)">Select User</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
